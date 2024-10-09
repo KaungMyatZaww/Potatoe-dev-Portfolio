@@ -35,13 +35,14 @@
         font-size: 80px;
         font-weight: bold;
         color: transparent;
-
         cursor: pointer;
         position: relative;
+        z-index: 1;
         a {
           text-decoration: none;
           color: transparent;
           -webkit-text-stroke: 2px white;
+          z-index: 99;
         }
         @media only screen and (max-width: 769px) {
           -webkit-text-stroke: 0px;
@@ -62,11 +63,13 @@
           overflow: hidden;
           color: rgb(182, 25, 190);
           white-space: nowrap;
+          z-index: -99;
         }
 
         &:hover {
           &::after {
             animation: textFill 0.5s linear forwards;
+            z-index: -99;
           }
         }
         @keyframes textFill {
