@@ -16,7 +16,9 @@ function Hero() {
             <h2>What I do.</h2>
           </div>
           <p>I like coding. And creating for LIVES easier.</p>
-          <button>More</button>
+          <button>
+            <a href="#about">More</a>
+          </button>
         </div>
         <div className="right">
           <Canvas>

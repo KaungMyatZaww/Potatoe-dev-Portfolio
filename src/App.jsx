@@ -2,7 +2,6 @@ import Hero from "./components/hero/Hero.jsx";
 import Project from "./components/projects/Project.jsx";
 import About from "./components/about/About.jsx";
 import Contact from "./components/contact/Contact.jsx";
-import Test from "./components/test/Test.jsx";
 import "./app.scss";
 
 function App() {

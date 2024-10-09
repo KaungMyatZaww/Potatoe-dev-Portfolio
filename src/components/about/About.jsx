@@ -16,7 +16,9 @@ function About() {
             <h2>Who i am.</h2>
           </div>
           <p>A developer with a passion for creating.</p>
-          <button>See Porjects</button>
+          <button>
+            <a href="#project">See more</a>
+          </button>
         </div>
       </div>
     </div>
