@@ -1,0 +1,107 @@
+.hero {
+  height: 100vh;
+  scroll-snap-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  @media only screen and (max-width: 769px) {
+    height: 200vh;
+  }
+
+  .container {
+    width: 1200px;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    @media only screen and (max-width: 769px) {
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+    }
+
+    .left {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+      @media only screen and (max-width: 769px) {
+        flex: 1;
+        align-items: center;
+      }
+      h1 {
+        font-size: 60px;
+        @media only screen and (max-width: 769px) {
+          text-align: center;
+        }
+      }
+
+      .whatWeDo {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        color: rgb(202, 52, 228);
+        img {
+          width: 15px;
+          height: 5px;
+        }
+        h2 {
+          font-size: 20px;
+        }
+      }
+      p {
+        font-size: 14px;
+      }
+      button {
+        font-size: 14px;
+        padding: 8px 8px;
+        width: 100px;
+        border: none;
+        border-radius: 15px;
+        background-color: rgb(202, 52, 228);
+        color: white;
+        cursor: pointer;
+      }
+    }
+    .right {
+      flex: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      @media only screen and (max-width: 769px) {
+        flex: 1;
+        width: 100%;
+      }
+
+      img {
+        width: 500px;
+        height: 500px;
+        object-fit: contain;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        animation: animate 2s infinite alternate;
+
+        @media only screen and (max-width: 769px) {
+          flex: 1;
+          width: 300px;
+          height: 300px;
+        }
+        @keyframes animate {
+          to {
+            transform: translateX(20px);
+          }
+        }
+      }
+    }
+  }
+}
