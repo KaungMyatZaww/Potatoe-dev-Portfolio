@@ -14,7 +14,7 @@ function Navbar() {
               <a href="#about">About Me</a>
             </li>
             <li>
-              <a href="#skills">My Skills</a>
+              <a href="#skills">Skills</a>
             </li>
             <li>
               <a href="#project">Projects</a>
@@ -27,7 +27,11 @@ function Navbar() {
 
         <div className="buttonContainer">
           <img src="./images/search.png" alt="search" />
-          <button>Get resume</button>
+          <button>
+            <a href="./resume.pdf" download className="resume-button">
+              Get My Resume
+            </a>
+          </button>
         </div>
       </div>
     </div>

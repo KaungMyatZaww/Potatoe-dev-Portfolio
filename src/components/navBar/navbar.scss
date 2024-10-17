@@ -71,6 +71,11 @@
         background-color: #5710b3;
         color: white;
 
+        a {
+          text-decoration: none;
+          color: white;
+        }
+
         &:hover {
           background-color: #350a6d;
           scale: 1.05;
