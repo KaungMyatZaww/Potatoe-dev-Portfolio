@@ -1,0 +1,99 @@
+.skill {
+  color: white;
+  height: 100vh;
+  scroll-snap-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .headingContainer {
+    flex: 1;
+    img {
+      width: 250px;
+      height: 250px;
+    }
+  }
+  .techContainer {
+    flex: 6;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .firstEight {
+      ul {
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        padding: 0;
+        @media only screen and (max-width: 769px) {
+          grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+          gap: 10px;
+        }
+
+        li {
+          color: white;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          padding: 10px;
+
+          img {
+            width: 90px;
+            margin-bottom: 10px;
+            transition: 1s ease;
+
+            @media only screen and (max-width: 769px) {
+              width: 45px;
+            }
+
+            &:hover {
+              scale: 1.2;
+            }
+          }
+        }
+      }
+    }
+    .lastTwo {
+      ul {
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+        gap: 20px;
+        padding: 0;
+        @media only screen and (max-width: 769px) {
+          grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+          gap: 10px;
+        }
+
+        li {
+          color: white;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          padding: 10px;
+
+          img {
+            width: 90px;
+            margin-bottom: 10px;
+            transition: 1s ease;
+
+            @media only screen and (max-width: 769px) {
+              width: 60px;
+            }
+
+            &:hover {
+              scale: 1.2;
+            }
+          }
+        }
+      }
+    }
+  }
+}

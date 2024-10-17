@@ -33,7 +33,12 @@ function Project() {
           </ul>
         </div>
         <div className="right">
-          <img src="./images/moon.png" alt="" />
+          <img src="./images/Projects.png" alt="" className="proj" />
+          <img
+            src="./images/ProjectsHeader.png"
+            alt=""
+            className="projectHeader"
+          />
         </div>
       </div>
     </div>
