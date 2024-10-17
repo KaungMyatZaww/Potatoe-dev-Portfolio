@@ -12,7 +12,7 @@ function Hero() {
         <div className="left">
           <h1>Think. Plan. Create.</h1>
           <div className="whatWeDo">
-            <img src="/images/line.png" alt="" />
+            <img src="/images/line.png" alt="line" />
             <h2>What I do.</h2>
           </div>
           <p>I like coding. And creating for LIVES easier.</p>
@@ -36,7 +36,7 @@ function Hero() {
             </Sphere>
             {/* </Suspense> */}
           </Canvas>
-          <img src="./images/cat.png" alt="" />
+          <img src="./images/cat.png" alt="hero" />
         </div>
       </div>
     </div>

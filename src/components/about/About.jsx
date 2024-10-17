@@ -15,7 +15,11 @@ function About() {
             <img src="./public/images/line.png" alt="" />
             <h2>Who i am.</h2>
           </div>
-          <p>A developer with a passion for creating.</p>
+          <p>
+            I am just a dude who likes coding like i said. I am a full-stack
+            developer specializing MERN stack development. I am really
+            passionate about coding. So hit me up!
+          </p>
           <button>
             <a href="#project">See more</a>
           </button>

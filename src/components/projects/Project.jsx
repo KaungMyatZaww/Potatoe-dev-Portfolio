@@ -33,10 +33,10 @@ function Project() {
           </ul>
         </div>
         <div className="right">
-          <img src="./images/Projects.png" alt="" className="proj" />
+          <img src="./images/Projects.png" alt="project" className="proj" />
           <img
             src="./images/ProjectsHeader.png"
-            alt=""
+            alt="project"
             className="projectHeader"
           />
         </div>

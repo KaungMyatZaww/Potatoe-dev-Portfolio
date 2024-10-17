@@ -23,7 +23,7 @@
       property="og:description"
       content="Showcasing React, Node.js projects."
     />
-    <meta property="og:image" content="https://potatoe-dev.netlify.app" />
+    <meta property="og:image" content="./public/images/logo.jpg" />
     <meta property="og:url" content="https://potatoe-dev.netlify.app" />
 
     <!-- Responsive Meta Tag -->
@@ -41,6 +41,17 @@
       }
     </style>
     <title>Potatoe-Dev</title>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Smol Potatoe",
+        "jobTitle": "Full-Stack Developer",
+        "url": "https://potatoe-dev.netlify.app/",
+        "sameAs": ["https://github.com/KaungMyatZaww"]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
