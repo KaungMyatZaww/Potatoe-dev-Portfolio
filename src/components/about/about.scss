@@ -3,6 +3,7 @@
   scroll-snap-align: center;
   display: flex;
   justify-content: center;
+  background: transparent;
 
   .container {
     height: 100vh;
@@ -23,6 +24,7 @@
       }
       h1 {
         font-size: 60px;
+        color: white;
       }
 
       .whatWeDo {
@@ -36,10 +38,12 @@
         }
         h2 {
           font-size: 20px;
+          color: rgb(202, 52, 228);
         }
       }
       p {
         font-size: 14px;
+        color: #d0d0d0;
       }
       button {
         font-size: 14px;

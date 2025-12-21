@@ -4,10 +4,10 @@
   scroll-behavior: smooth;
   scrollbar-width: none;
   overflow-y: auto;
-  background-image: url("../public/images/bg.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
   color: white;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }

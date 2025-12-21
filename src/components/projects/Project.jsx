@@ -1,48 +1,42 @@
+import React from "react";
+import { ArrowUpRight } from "lucide-react";
 import "./project.scss";
 
-function Project() {
-  const data = [
+export default function Project() {
+  const projects = [
     {
-      name: "Social-media",
+      name: "Social Media Platform",
       url: "https://github.com/KaungMyatZaww/Social-media-full-stack/tree/master",
     },
     {
-      name: "Real-estate",
+      name: "Real Estate System",
       url: "https://github.com/KaungMyatZaww/Real-Estate/tree/master",
     },
-    {
-      name: "Weather app",
-      url: "",
-    },
+    { name: "Weather App", url: "" },
   ];
+
   return (
-    <div className="project">
-      <div className="projectContainer">
-        <div className="left">
-          <ul>
-            {data.map((item) => (
-              <li
-                key={item.name}
-                style={{ "--dynamic-content": `"${item.name}"` }}
-              >
-                <a href={item.url} target="_blank" rel="noopener noreferrer">
-                  {item.name}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="right">
-          <img src="./images/Projects.png" alt="project" className="proj" />
-          <img
-            src="./images/ProjectsHeader.png"
-            alt="project"
-            className="projectHeader"
-          />
-        </div>
+    <section className="revamped-wrapper">
+      <h1 className="title">Featured Projects</h1>
+      <p className="subtitle">A curated list of my latest work</p>
+
+      <div className="grid">
+        {projects.map((item, idx) => (
+          <a
+            key={idx}
+            href={item.url || "#"}
+            className={`card ${!item.url ? "disabled" : ""}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div className="card-header">
+              <h2>{item.name}</h2>
+              {item.url && <ArrowUpRight className="icon" size={20} />}
+            </div>
+            <p className="desc">Click to view repository</p>
+          </a>
+        ))}
       </div>
-    </div>
+    </section>
   );
 }
-
-export default Project;

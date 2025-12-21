@@ -28,25 +28,52 @@ function Contact() {
 
   return (
     <div className="contact">
-      <div className="contactContainer">
-        <div className="left">
-          <form ref={ref} onSubmit={handleSubmit}>
-            <h1>CONTACT ME :0</h1>
-            <input name="name" type="text" placeholder="Name" />
-            <input name="email" type="email" placeholder="Mail" />
-            <textarea
-              name="message"
-              id=""
-              placeholder="Tell me anything!"
-              rows={8}
-            ></textarea>
-            <button type="submit">Send</button>
-            {success && "YOur message has been sent. Get back to you soonge! "}
-          </form>
+      <div className="contact-content">
+        <div className="contactContainer">
+          <div className="left">
+            <form ref={ref} onSubmit={handleSubmit}>
+              <h1>CONTACT ME :0</h1>
+              <input name="name" type="text" placeholder="Name" />
+              <input name="email" type="email" placeholder="Mail" />
+              <textarea
+                name="message"
+                id=""
+                placeholder="Tell me anything!"
+                rows={8}
+              ></textarea>
+              <button type="submit">Send</button>
+              {success &&
+                "YOur message has been sent. Get back to you soonge! "}
+            </form>
+          </div>
+          <div className="right">
+            <Map />
+          </div>
         </div>
-        <div className="right">
-          <Map />
-        </div>
+        <footer className="contact-footer">
+          <div className="socials">
+            <a
+              href="https://github.com/KaungMyatZaww"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-link"
+            >
+              GitHub
+            </a>
+            <a
+              href="https://linkedin.com/in/kaungmyat-zaw"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-link"
+            >
+              LinkedIn
+            </a>
+          </div>
+          <div className="copyright">
+            &copy; {new Date().getFullYear()} Kaung Myat Zaw. All rights
+            reserved.
+          </div>
+        </footer>
       </div>
     </div>
   );

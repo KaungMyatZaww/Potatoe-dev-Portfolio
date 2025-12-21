@@ -1,0 +1,104 @@
+.experience-section {
+  padding: 80px 20px;
+  min-height: 100vh;
+  scroll-snap-align: center;
+  background: transparent;
+  color: #fff;
+  text-align: center;
+
+  .title {
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    color: white;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+    opacity: 0.8;
+    margin-bottom: 40px;
+    color: #d0d0d0;
+  }
+
+  .experience-grid {
+    margin: 0 auto;
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+  }
+
+  .experience-card {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(56, 163, 163, 0.3); // Different color from skills/projects
+    padding: 25px;
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    transition: 0.3s ease;
+    text-align: left;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    &:hover {
+      transform: translateY(-6px);
+      border-color: rgb(56, 163, 163); // Different hover color
+      box-shadow: 0 0 20px rgba(56, 163, 163, 0.4);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(56, 163, 163, 0.2);
+
+      h2 {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: white;
+        margin: 0;
+      }
+
+      .company {
+        font-size: 1rem;
+        background: rgba(56, 163, 163, 0.2);
+        color: #64fda9; // Different color for company name
+        padding: 4px 8px;
+        border-radius: 8px;
+        font-weight: 500;
+      }
+    }
+
+    .duration {
+      font-size: 0.9rem;
+      color: #aaa;
+      margin-bottom: 15px;
+      font-style: italic;
+    }
+
+    .description {
+      font-size: 1rem;
+      color: #d0d0d0;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .technologies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+
+      .tech-tag {
+        background: rgba(90, 200, 250, 0.2);
+        color: #5ac8fa; // Another different color
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+    }
+  }
+}

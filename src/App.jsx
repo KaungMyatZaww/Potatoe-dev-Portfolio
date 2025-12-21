@@ -4,6 +4,7 @@ import About from "./components/about/About.jsx";
 import Contact from "./components/contact/Contact.jsx";
 import "./app.scss";
 import Skill from "./components/skill/Skill.jsx";
+import Experience from "./components/experience/Experience.jsx";
 
 function App() {
   return (
@@ -13,6 +14,9 @@ function App() {
       </section>
       <section id="about">
         <About />
+      </section>
+      <section id="experience">
+        <Experience />
       </section>
       <section id="skills">
         <Skill />
