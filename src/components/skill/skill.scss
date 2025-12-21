@@ -21,6 +21,9 @@
     color: #d0d0d0;
   }
 
+  /* ========================= */
+  /* GRID */
+  /* ========================= */
   .grid {
     margin: 0 auto;
     max-width: 1200px;
@@ -36,20 +39,24 @@
       grid-template-columns: repeat(2, 1fr);
     }
 
+    /* 📱 MOBILE: 2 PER ROW */
     @media only screen and (max-width: 480px) {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
     }
   }
 
+  /* ========================= */
+  /* CARD */
+  /* ========================= */
   .skill-card {
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(202, 52, 228, 0.3);
-    padding: 25px;
+    padding: 22px;
     border-radius: 16px;
     backdrop-filter: blur(12px);
     transition: 0.3s ease;
     text-align: left;
-    position: relative;
     display: flex;
     flex-direction: column;
 
@@ -88,23 +95,17 @@
     }
 
     .skill-logo-container {
-      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 100px;
+      min-height: 90px;
 
       .skill-logo {
-        max-width: 80px;
-        max-height: 80px;
+        max-width: 70px;
+        max-height: 70px;
         transition: 0.3s ease;
         filter: grayscale(100%);
         opacity: 0.8;
-
-        @media only screen and (max-width: 769px) {
-          max-width: 60px;
-          max-height: 60px;
-        }
       }
     }
 
@@ -112,6 +113,59 @@
       filter: grayscale(0%);
       opacity: 1;
       transform: scale(1.1);
+    }
+  }
+
+  /* ========================= */
+  /* 📱 MOBILE OPTIMIZATION */
+  /* ========================= */
+  @media only screen and (max-width: 480px) {
+    padding: 50px 15px;
+
+    .title {
+      font-size: 2rem;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      margin-bottom: 25px;
+    }
+
+    .skill-card {
+      padding: 16px;
+      text-align: center;
+
+      /* disable wide cards on mobile */
+      &.wide-card {
+        grid-column: span 2;
+      }
+
+      &:hover {
+        transform: none;
+        box-shadow: none;
+      }
+
+      .card-header {
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 12px;
+
+        h2 {
+          font-size: 1.1rem;
+        }
+
+        .category {
+          font-size: 0.65rem;
+          padding: 3px 6px;
+        }
+      }
+
+      .skill-logo {
+        filter: grayscale(0%);
+        opacity: 1;
+        max-width: 55px;
+        max-height: 55px;
+      }
     }
   }
 }
