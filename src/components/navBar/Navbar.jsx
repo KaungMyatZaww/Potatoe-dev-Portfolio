@@ -5,7 +5,7 @@ function Navbar() {
     <div className="navbar">
       <div className="containerrr">
         <div className="leftContainer">
-          <img src="./images/logobg.png" alt="logo" />
+          <img src="./images/logo-removebg.png" alt="logo" />
           <ul>
             <li>
               <a href="#hero">Home</a>

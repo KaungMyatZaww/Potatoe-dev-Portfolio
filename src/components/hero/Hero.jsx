@@ -36,7 +36,7 @@ function Hero() {
             </Sphere>
             {/* </Suspense> */}
           </Canvas>
-          <img src="./images/cat.png" alt="hero" />
+          <img src="./images/Smol_Potatoe-removebg-preview.png" alt="hero" />
         </div>
       </div>
     </div>
