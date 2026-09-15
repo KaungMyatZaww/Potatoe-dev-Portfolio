@@ -1,12 +1,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>https://potatoe-dev.netlify.app/</loc>
-<lastmod>2024-10-17T16:57:14+01:00</lastmod>
-<priority>0.8</priority>
+<lastmod>2026-09-15</lastmod>
+<priority>1.0</priority>
 </url>
 <url>
-<loc>https://potatoe-dev.netlify.app/resume.pdf</loc>
-<lastmod>2024-10-17T16:57:14+01:00</lastmod>
-<priority>1.0</priority>
+<loc>https://potatoe-dev.netlify.app/projects</loc>
+<lastmod>2026-09-15</lastmod>
+<priority>0.8</priority>
 </url>
 </urlset>

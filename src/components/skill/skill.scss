@@ -1,171 +1,147 @@
-.skill-section {
-  padding: 80px 20px;
-  min-height: 100vh;
-  scroll-snap-align: center;
-  background: transparent;
-  color: #fff;
-  text-align: center;
+@use "../../styles/mixins" as *;
 
-  .title {
-    font-size: 3rem;
-    font-weight: 800;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
-    color: white;
+.skill {
+  position: relative;
+  overflow: hidden;
+
+  &__inner {
+    @include section-shell;
+    position: relative;
+    z-index: 1;
   }
 
-  .subtitle {
-    font-size: 1.2rem;
-    opacity: 0.8;
-    margin-bottom: 40px;
-    color: #d0d0d0;
-  }
-
-  /* ========================= */
-  /* GRID */
-  /* ========================= */
-  .grid {
-    margin: 0 auto;
-    max-width: 1200px;
+  // Collapsed-border specimen sheet — hairline cells, no gaps, no radius.
+  &__grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 25px;
-
-    @media only screen and (max-width: 1200px) {
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    @media only screen and (max-width: 769px) {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    /* 📱 MOBILE: 2 PER ROW */
-    @media only screen and (max-width: 480px) {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-    }
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
   }
 
-  /* ========================= */
-  /* CARD */
-  /* ========================= */
-  .skill-card {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(202, 52, 228, 0.3);
-    padding: 22px;
-    border-radius: 16px;
-    backdrop-filter: blur(12px);
-    transition: 0.3s ease;
-    text-align: left;
+  &__cell {
+    position: relative;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    min-height: clamp(150px, 17vw, 200px);
+    padding: var(--sp-5);
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: transparent;
+    transition: background-color var(--dur) var(--ease-out);
+
+    // Vermilion corner tick that draws in on hover.
+    &::before {
+      content: "";
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      width: 22px;
+      height: 22px;
+      border-top: 1px solid var(--accent);
+      border-left: 1px solid var(--accent);
+      opacity: 0;
+      transform: scale(0.5);
+      transform-origin: top left;
+      transition: opacity var(--dur) var(--ease-out),
+        transform var(--dur) var(--ease-out);
+    }
 
     &:hover {
-      transform: translateY(-6px);
-      border-color: rgb(202, 52, 228);
-      box-shadow: 0 0 20px rgba(202, 52, 228, 0.4);
-    }
+      background: var(--tint-strong);
 
-    &.wide-card {
-      grid-column: span 2;
-    }
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 15px;
-
-      h2 {
-        font-size: 1.4rem;
-        font-weight: 700;
-        color: white;
-        margin: 0;
-      }
-
-      .category {
-        font-size: 0.8rem;
-        background: rgba(202, 52, 228, 0.2);
-        color: rgb(202, 52, 228);
-        padding: 4px 8px;
-        border-radius: 8px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
+      &::before {
+        opacity: 1;
+        transform: scale(1);
       }
     }
 
-    .skill-logo-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 90px;
-
-      .skill-logo {
-        max-width: 70px;
-        max-height: 70px;
-        transition: 0.3s ease;
-        filter: grayscale(100%);
-        opacity: 0.8;
-      }
-    }
-
-    &:hover .skill-logo {
-      filter: grayscale(0%);
-      opacity: 1;
-      transform: scale(1.1);
+    @include reduced-motion {
+      transition: none;
     }
   }
 
-  /* ========================= */
-  /* 📱 MOBILE OPTIMIZATION */
-  /* ========================= */
-  @media only screen and (max-width: 480px) {
-    padding: 50px 15px;
+  &__cell-meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sp-3);
+  }
 
-    .title {
-      font-size: 2rem;
+  &__ordinal {
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  &__category {
+    @include label(var(--fs-3xs));
+    color: var(--text-faint);
+    text-align: right;
+    letter-spacing: var(--tracking-wider);
+  }
+
+  &__mark {
+    display: grid;
+    place-items: center;
+    flex: 1 1 auto;
+
+    img {
+      width: clamp(38px, 4vw, 56px);
+      height: auto;
+      object-fit: contain;
+      filter: grayscale(0) brightness(1);
+      opacity: 1;
+      transition: transform var(--dur-slow) var(--ease-out);
+    }
+  }
+
+  &__cell:hover &__mark img {
+    transform: scale(1.08);
+  }
+
+  &__name {
+    font-family: var(--font-display);
+    font-size: var(--fs-h3);
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  // --- Responsive ---------------------------------------------------------
+  @include until($bp-lg) {
+    &__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  @include until($bp-md) {
+    &__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @include until($bp-xs) {
+    &__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .subtitle {
-      font-size: 0.95rem;
-      margin-bottom: 25px;
+    &__cell {
+      min-height: 128px;
+      padding: var(--sp-3);
     }
 
-    .skill-card {
-      padding: 16px;
-      text-align: center;
-
-      /* disable wide cards on mobile */
-      &.wide-card {
-        grid-column: span 2;
-      }
-
-      &:hover {
-        transform: none;
-        box-shadow: none;
-      }
-
-      .card-header {
-        flex-direction: column;
-        gap: 6px;
-        margin-bottom: 12px;
-
-        h2 {
-          font-size: 1.1rem;
-        }
-
-        .category {
-          font-size: 0.65rem;
-          padding: 3px 6px;
-        }
-      }
-
-      .skill-logo {
-        filter: grayscale(0%);
-        opacity: 1;
-        max-width: 55px;
-        max-height: 55px;
-      }
+    &__name {
+      font-size: 1rem;
+      overflow-wrap: break-word;
     }
+
+    &__category {
+      display: none;
+    }
+
   }
 }

@@ -1,13 +1,144 @@
-.app {
-  height: 100vh;
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-  overflow-y: auto;
-  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-  color: white;
+@use "./styles/global";
+@use "./styles/mixins" as *;
 
-  &::-webkit-scrollbar {
-    display: none;
+// ---------------------------------------------------------------------------
+// App shell. The page is a single scroll column of editorial sections, each a
+// full-bleed surface. Snap uses proximity (not mandatory) so tall sections
+// still breathe, and no hairline is drawn between sections — the tonal step
+// from paper to ink is the rule.
+// ---------------------------------------------------------------------------
+.app {
+  position: relative;
+  min-height: 100vh;
+  isolation: isolate;
+
+  main {
+    display: block;
+  }
+}
+
+// Anchor offset so deep links are not hidden behind the fixed masthead.
+// Each home section is a snap point; proximity keeps tall sections reachable.
+section[id] {
+  scroll-margin-top: var(--nav-height);
+  scroll-snap-align: start;
+}
+
+// ---------------------------------------------------------------------------
+// Wash placement.
+//
+// Kept together here so the page's composition can be read in one place. Each
+// entry answers three questions: where the ink pooled (`--wash-pos`), how hard
+// it reads (`--wash-opacity`), and where it must stay clear of
+// (`--wash-mask`).
+//
+// The masks are a legibility constraint as much as an aesthetic one. Ink behind
+// dark type on paper lowers contrast, and a pale stroke behind light type on
+// ink does the same, so each section holds its wash away from wherever its own
+// copy actually sits. The hero can afford a hard left-to-right fade because its
+// ink is pooled on the right; the sections whose copy spans the full width get
+// a gentler, edge-weighted hold instead.
+// ---------------------------------------------------------------------------
+
+// Ink in the bottom right, so it can come in hard from the right edge — it
+// never reaches the statement column, and it backs the katana stage.
+#hero {
+  --wash-pos: 50% 50%;
+  --wash-mask: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.04) 0%,
+    rgba(0, 0, 0, 0.12) 38%,
+    rgba(0, 0, 0, 0.5) 60%,
+    rgba(0, 0, 0, 0.95) 80%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+// The broad drag sits low; the radial default keeps it off the reading column.
+#about {
+  --wash-pos: 50% 100%;
+  --wash-opacity: 0.85;
+}
+
+// A faint pool at the left margin. The ruled rows run the full width, so this
+// one is held back hardest.
+#experience {
+  --wash-pos: 0% 62%;
+  --wash-opacity: 0.55;
+  --wash-mask: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.2) 20%,
+    rgba(0, 0, 0, 0.06) 42%,
+    rgba(0, 0, 0, 0.06) 66%,
+    rgba(0, 0, 0, 0.14) 100%
+  );
+}
+
+// The slash is cropped hard right, past the grid's last column.
+#skills {
+  --wash-pos: 92% 30%;
+  --wash-opacity: 0.9;
+  --wash-mask: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.06) 0%,
+    rgba(0, 0, 0, 0.12) 56%,
+    rgba(0, 0, 0, 0.7) 86%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+// A tall section, so the texture is scaled up into a broad soft sweep low on
+// the page — the mark the draft puts behind the closing band.
+#contact {
+  --wash-pos: 100% 96%;
+  --wash-opacity: 0.8;
+  --wash-mask: linear-gradient(
+    172deg,
+    rgba(0, 0, 0, 0.05) 0%,
+    rgba(0, 0, 0, 0.1) 42%,
+    rgba(0, 0, 0, 0.45) 74%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+// Cropping a 1440-wide texture onto a phone shows its middle band, which is
+// where every one of these masks is strongest — so the washes sail past the
+// content entirely. Re-aim them at the edges instead.
+@include until($bp-sm) {
+  #hero {
+    --wash-pos: 78% 50%;
+    --wash-mask: linear-gradient(
+      160deg,
+      rgba(0, 0, 0, 0.06) 0%,
+      rgba(0, 0, 0, 0.5) 62%,
+      rgba(0, 0, 0, 1) 100%
+    );
+  }
+
+  #about,
+  #contact {
+    --wash-pos: 50% 100%;
+    --wash-opacity: 0.7;
+  }
+
+  #experience {
+    --wash-pos: 34% 60%;
+    --wash-mask: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.05) 0%,
+      rgba(0, 0, 0, 0.07) 58%,
+      rgba(0, 0, 0, 0.5) 100%
+    );
+  }
+
+  #skills {
+    --wash-pos: 96% 24%;
+    --wash-mask: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.08) 0%,
+      rgba(0, 0, 0, 0.55) 46%,
+      rgba(0, 0, 0, 0.12) 100%
+    );
   }
 }

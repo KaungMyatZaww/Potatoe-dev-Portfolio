@@ -1,104 +1,143 @@
-.experience-section {
-  padding: 80px 20px;
-  min-height: 100vh;
-  scroll-snap-align: center;
-  background: transparent;
-  color: #fff;
-  text-align: center;
+@use "../../styles/mixins" as *;
 
-  .title {
-    font-size: 3rem;
-    font-weight: 800;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
-    color: white;
+.experience {
+  &__inner {
+    @include section-shell;
   }
 
-  .subtitle {
-    font-size: 1.2rem;
-    opacity: 0.8;
-    margin-bottom: 40px;
-    color: #d0d0d0;
-  }
-
-  .experience-grid {
-    margin: 0 auto;
-    max-width: 1200px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 25px;
-  }
-
-  .experience-card {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(56, 163, 163, 0.3); // Different color from skills/projects
-    padding: 25px;
-    border-radius: 16px;
-    backdrop-filter: blur(12px);
-    transition: 0.3s ease;
-    text-align: left;
-    position: relative;
+  &__list {
     display: flex;
     flex-direction: column;
+    border-top: 1px solid var(--line);
+  }
+
+  // Each entry is a ruled row: metadata rail on the left, narrative on the
+  // right. No cards, no shadows — the rule does the work.
+  &__entry {
+    display: grid;
+    grid-template-columns: minmax(0, 0.32fr) minmax(0, 1fr);
+    gap: clamp(var(--sp-5), 5vw, var(--sp-8));
+    padding-block: var(--sp-7);
+    border-bottom: 1px solid var(--line);
+    transition: background-color var(--dur) var(--ease-out);
 
     &:hover {
-      transform: translateY(-6px);
-      border-color: rgb(56, 163, 163); // Different hover color
-      box-shadow: 0 0 20px rgba(56, 163, 163, 0.4);
+      background: var(--tint);
     }
 
-    .card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid rgba(56, 163, 163, 0.2);
+    @include reduced-motion {
+      transition: none;
+    }
+  }
 
-      h2 {
-        font-size: 1.4rem;
-        font-weight: 700;
-        color: white;
-        margin: 0;
-      }
+  &__rail {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+  }
 
-      .company {
-        font-size: 1rem;
-        background: rgba(56, 163, 163, 0.2);
-        color: #64fda9; // Different color for company name
-        padding: 4px 8px;
-        border-radius: 8px;
-        font-weight: 500;
-      }
+  &__ordinal {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  &__duration {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  &__company {
+    font-family: var(--font-mono);
+    font-size: var(--fs-2xs);
+    line-height: 1.7;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--text-faint);
+    max-width: 24ch;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+
+  &__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sp-4);
+  }
+
+  &__position {
+    font-family: var(--font-display);
+    font-size: var(--fs-h2);
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  &__location {
+    @include label(var(--fs-3xs));
+    color: var(--text-faint);
+  }
+
+  &__description {
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    color: var(--text-dim);
+    max-width: 68ch;
+  }
+
+  &__stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+    margin-top: var(--sp-1);
+  }
+
+  &__tag {
+    @include label(var(--fs-3xs));
+    padding: var(--sp-1) var(--sp-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    color: var(--text-faint);
+    transition: border-color var(--dur) var(--ease-out),
+      color var(--dur) var(--ease-out);
+
+    &:hover {
+      border-color: var(--accent);
+      color: var(--accent-strong);
     }
 
-    .duration {
-      font-size: 0.9rem;
-      color: #aaa;
-      margin-bottom: 15px;
-      font-style: italic;
+    @include reduced-motion {
+      transition: none;
+    }
+  }
+
+  // --- Responsive ---------------------------------------------------------
+  @include until($bp-md) {
+    &__entry {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--sp-5);
+      padding-block: var(--sp-6);
     }
 
-    .description {
-      font-size: 1rem;
-      color: #d0d0d0;
-      margin-bottom: 15px;
-      line-height: 1.5;
-    }
-
-    .technologies {
-      display: flex;
+    &__rail {
+      flex-direction: row;
       flex-wrap: wrap;
-      gap: 8px;
+      align-items: baseline;
+      gap: var(--sp-4);
+    }
 
-      .tech-tag {
-        background: rgba(90, 200, 250, 0.2);
-        color: #5ac8fa; // Another different color
-        padding: 4px 10px;
-        border-radius: 20px;
-        font-size: 0.8rem;
-        font-weight: 500;
-      }
+    &__company {
+      max-width: none;
+      flex-basis: 100%;
     }
   }
 }

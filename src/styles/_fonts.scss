@@ -1,0 +1,54 @@
+// ---------------------------------------------------------------------------
+// Self-hosted typefaces (Latin subsets, downloaded from Google Fonts).
+// Public path is served at the site root by Vite, so /fonts/* resolves.
+// ---------------------------------------------------------------------------
+
+@font-face {
+  font-family: "Shippori Mincho";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/shippori-mincho-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Shippori Mincho";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/shippori-mincho-600.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Shippori Mincho";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/shippori-mincho-700.woff2") format("woff2");
+}
+
+// JetBrains Mono ships as a single variable file; each weight rule points at
+// the same URL so browsers download it exactly once.
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/jetbrains-mono.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/jetbrains-mono.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/jetbrains-mono.woff2") format("woff2");
+}

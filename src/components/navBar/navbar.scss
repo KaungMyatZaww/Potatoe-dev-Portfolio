@@ -1,86 +1,270 @@
-.navbar {
-  display: flex;
-  justify-content: center;
+@use "../../styles/mixins" as *;
+@use "../../styles/surfaces" as surfaces;
 
-  @media only screen and (max-width: 769px) {
-    width: 100%;
+.navbar {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: var(--z-nav);
+
+  // The bar is the page's constant frame. It is deliberately *opaque* — a
+  // translucent one smears the wash scrolling behind it into grey mud, and over
+  // the light paper sections it stops reading as a frame at all. Instead it
+  // takes the tokens of whichever surface it is floating over (see
+  // useSurfaceTone), so it always matches, and nothing scrolls through it.
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  color: var(--text);
+
+  // --- Surfaces the bar can wear ------------------------------------------
+  &--paper {
+    @include surfaces.paper-tokens;
   }
 
-  .containerrr {
-    padding: 10px 0;
-    width: 1000px;
+  &--ink {
+    @include surfaces.ink-tokens;
+  }
+
+  &__inner {
+    @include shell;
+    position: relative;
+    z-index: 2;
+    height: var(--nav-height);
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: var(--sp-5);
+  }
 
-    @media only screen and (max-width: 769px) {
-      width: 100%;
-      padding: 10px;
+  // --- Brand --------------------------------------------------------------
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    flex: none;
+
+    img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      filter: none;
+    }
+  }
+
+  &__brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+
+  &__brand-name {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+  }
+
+  &__brand-role {
+    @include label(var(--fs-3xs));
+    color: var(--text-faint);
+    letter-spacing: var(--tracking-wider);
+  }
+
+  // --- Primary navigation -------------------------------------------------
+  &__list {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-5);
+  }
+
+  &__link {
+    position: relative;
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--sp-2);
+    padding-block: var(--sp-2);
+
+    // Vermilion underline that grows from the left on hover.
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 1px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--dur) var(--ease-out);
     }
 
-    .leftContainer {
+    &:hover {
+      color: var(--text);
+
+      &::after {
+        transform: scaleX(1);
+      }
+    }
+  }
+
+  &__link-index {
+    @include label(var(--fs-3xs));
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__link-label {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  &__link:hover &__link-label {
+    color: var(--text);
+  }
+
+  // --- Actions ------------------------------------------------------------
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    flex: none;
+  }
+
+  &__resume {
+    @include focus-ring;
+    @include label(var(--fs-3xs));
+    padding: var(--sp-3) var(--sp-4);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    transition: border-color var(--dur) var(--ease-out),
+      color var(--dur) var(--ease-out), background-color var(--dur) var(--ease-out);
+
+    &:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--paper);
+    }
+  }
+
+  // --- Hamburger ----------------------------------------------------------
+  &__toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    width: 44px;
+    height: 44px;
+    padding: 0 11px;
+    background: none;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+  }
+
+  &__toggle-bar {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: var(--text);
+    transition: transform var(--dur) var(--ease-out),
+      opacity var(--dur) var(--ease-out);
+  }
+
+  &__toggle[aria-expanded="true"] &__toggle-bar:first-child {
+    transform: translateY(4px) rotate(45deg);
+  }
+
+  &__toggle[aria-expanded="true"] &__toggle-bar:last-child {
+    transform: translateY(-3px) rotate(-45deg);
+  }
+
+  // --- Mobile menu --------------------------------------------------------
+  &__menu {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-5);
+    padding: var(--sp-5) var(--gutter) var(--sp-6);
+    // The body is locked while the menu is open — the menu itself must
+    // scroll so landscape / short screens can still reach every link.
+    max-height: calc(100svh - var(--nav-height));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    animation: menu-drop var(--dur) var(--ease-out) both;
+
+    &[hidden] {
+      display: none;
+    }
+
+    ul {
       display: flex;
-      align-items: center;
-      gap: 50px;
-
-      img {
-        width: 80px;
-        height: 80px;
-      }
-
-      ul {
-        list-style: none;
-        display: flex;
-        gap: 20px;
-        font-size: 16px;
-        font-weight: 500;
-        font-family: Arial;
-        cursor: pointer;
-
-        @media only screen and (max-width: 769px) {
-          display: none;
-        }
-
-        li {
-          a {
-            text-decoration: none;
-            color: white;
-          }
-          &:hover {
-            scale: 1.09;
-          }
-        }
-      }
+      flex-direction: column;
     }
 
-    .buttonContainer {
+    li + li {
+      border-top: 1px solid var(--line);
+    }
+
+    a {
       display: flex;
-      align-items: center;
-      gap: 10px;
-      img {
-        width: 25px;
-        height: 25px;
-      }
+      align-items: baseline;
+      gap: var(--sp-3);
+      padding-block: var(--sp-4);
+      font-family: var(--font-display);
+      font-size: 1.375rem;
+      font-weight: 600;
+      color: var(--text);
 
-      button {
-        font-size: 14px;
-        padding: 12px 18px;
-        border: none;
-        border-radius: 20px;
-        cursor: pointer;
-        background-color: #5710b3;
-        color: white;
-
-        a {
-          text-decoration: none;
-          color: white;
-        }
-
-        &:hover {
-          background-color: #350a6d;
-          scale: 1.05;
-        }
+      &:hover {
+        color: var(--accent-strong);
       }
     }
+  }
+
+  &__menu-resume {
+    align-self: flex-start;
+  }
+
+  // --- Responsive ---------------------------------------------------------
+  @include until($bp-md) {
+    &__inner {
+      gap: var(--sp-3);
+    }
+
+    &__nav,
+    &__resume {
+      display: none;
+    }
+
+    &__toggle {
+      display: flex;
+    }
+
+    &__brand-role {
+      display: none;
+    }
+
+    &__menu-resume {
+      align-self: stretch;
+      text-align: center;
+    }
+  }
+}
+
+@keyframes menu-drop {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -8px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 }

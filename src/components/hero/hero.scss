@@ -1,116 +1,181 @@
+@use "../../styles/mixins" as *;
+
 .hero {
-  height: 100vh;
-  scroll-snap-align: center;
+  position: relative;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  background: transparent;
+  padding-top: var(--nav-height); // clears the fixed masthead
 
-  @media only screen and (max-width: 769px) {
-    height: 200vh;
+  &__inner {
+    @include shell;
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    padding-block: var(--sp-7) var(--sp-9);
   }
 
-  .container {
-    width: 1200px;
-    height: 100%;
+  // --- Left column: the editorial statement -------------------------------
+  &__lead {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: var(--sp-5);
+    max-width: 600px;
+    animation: hero-rise var(--dur-reveal) var(--ease-out) both;
 
-    @media only screen and (max-width: 769px) {
+    @include reduced-motion {
+      animation: none;
+    }
+  }
+
+  &__meta {
+    @include label(var(--fs-2xs));
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+    color: var(--text-faint);
+  }
+
+  &__meta-index {
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__meta-rule {
+    width: 42px;
+    height: 1px;
+    background: var(--line-strong);
+    flex: none;
+  }
+
+  &__title {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-display);
+    font-size: var(--fs-hero);
+    font-weight: 600;
+    line-height: var(--lh-tight);
+    letter-spacing: var(--tracking-tight);
+    margin-block: var(--sp-2);
+
+    span {
+      display: block;
+    }
+  }
+
+  &__title-accent {
+    color: var(--accent);
+    // Optical indent — the third line steps in, like a typeset stanza.
+    padding-left: 0.06em;
+  }
+
+  &__kicker {
+    @include label(var(--fs-2xs));
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+    color: var(--accent);
+  }
+
+  &__copy {
+    max-width: 34ch;
+    color: var(--text-dim);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+    margin-top: var(--sp-2);
+  }
+
+  // --- Scroll cue ---------------------------------------------------------
+  &__scroll {
+    position: absolute;
+    left: var(--gutter);
+    bottom: var(--sp-5);
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+
+    span:first-child {
+      @include label(var(--fs-3xs));
+      color: var(--text-faint);
+    }
+
+    .hero__scroll-line {
+      display: block;
+      width: 64px;
+      height: 1px;
+      background: var(--line-strong);
+      transform-origin: left;
+      animation: scroll-pulse 2.6s var(--ease-in-out) infinite;
+
+      @include reduced-motion {
+        animation: none;
+      }
+    }
+  }
+
+  // --- Responsive ---------------------------------------------------------
+  @include until($bp-md) {
+    min-height: auto;
+    padding-bottom: var(--sp-8);
+
+    &__inner {
+      gap: var(--sp-6);
+      padding-block: var(--sp-6) var(--sp-7);
+    }
+
+    &__title {
+      font-size: clamp(2.75rem, 13vw, 4.5rem);
+    }
+
+    &__copy {
+      max-width: 44ch;
+    }
+
+    &__scroll {
+      display: none;
+    }
+  }
+
+  @include until($bp-xs) {
+    &__actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    &__actions .btn {
       width: 100%;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0;
     }
+  }
+}
 
-    .left {
-      flex: 2;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 10px;
-      @media only screen and (max-width: 769px) {
-        flex: 1;
-        align-items: center;
-      }
-      h1 {
-        font-size: 60px;
-        color: white;
-        @media only screen and (max-width: 769px) {
-          text-align: center;
-        }
-      }
+// --- Keyframes ------------------------------------------------------------
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 26px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
 
-      .whatWeDo {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        color: rgb(202, 52, 228);
-        img {
-          width: 15px;
-          height: 5px;
-        }
-        h2 {
-          font-size: 20px;
-          color: rgb(202, 52, 228);
-        }
-      }
-      p {
-        font-size: 14px;
-        color: #d0d0d0;
-      }
-      button {
-        font-size: 14px;
-        padding: 8px 8px;
-        width: 100px;
-        border: none;
-        border-radius: 15px;
-        background-color: rgb(202, 52, 228);
-        color: white;
-        cursor: pointer;
-
-        a {
-          text-decoration: none;
-          color: white;
-        }
-      }
-    }
-    .right {
-      flex: 3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      @media only screen and (max-width: 769px) {
-        flex: 1;
-        width: 100%;
-      }
-
-      img {
-        width: 400px;
-        height: 400px;
-        object-fit: contain;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: auto;
-        animation: animate 2s infinite alternate;
-
-        @media only screen and (max-width: 769px) {
-          flex: 1;
-          width: 300px;
-          height: 300px;
-        }
-        @keyframes animate {
-          to {
-            transform: translateX(20px);
-          }
-        }
-      }
-    }
+@keyframes scroll-pulse {
+  0%,
+  100% {
+    transform: scaleX(0.35);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scaleX(1);
+    opacity: 1;
   }
 }

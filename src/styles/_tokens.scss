@@ -1,0 +1,122 @@
+// ---------------------------------------------------------------------------
+// Design tokens — "Sumi" (墨): an ink-wash editorial system.
+//
+// The site alternates between two surfaces, the way a bound volume alternates
+// pages of paper and plates of ink:
+//
+//   paper  — a warm grey sheet carrying black sumi washes
+//   ink    — a near-black ground carrying dry pale brush strokes
+//
+// Their values are not invented; they were sampled from the supplied reference
+// images. Paper reads (200, 200, 192) and the void (12, 12, 12), and the whole
+// set is near-pure greyscale — the vermilion seal is the only chroma in the
+// reference, so chroma stays reserved for accent.
+//
+// `--text`, `--line`, `--accent` and friends are *surface-scoped*: they are
+// (re)defined per surface in _surfaces.scss, so a component partial only ever
+// asks for `var(--text)` and gets the correct value on either page. Raw palette
+// entries are for the surface definitions themselves.
+//
+// A few entries (--indigo, --gold, --steel) cannot be read by SVG
+// presentation attributes, so Map.jsx mirrors their hex values as literals.
+// Keep those in sync.
+// ---------------------------------------------------------------------------
+
+:root {
+  // --- Palette: surfaces ---------------------------------------------------
+  --paper-bg: #c9c8c0; // the sheet itself — sampled (200, 200, 192)
+  --paper-bg-deep: #bcbab1; // recessed areas, e.g. inside a thumbnail frame
+  --paper-bg-lift: #d7d6ce; // the lightest the sheet reads once grain lifts it
+  --sumi-void: #0b0b0b; // the dark ground — sampled (12, 12, 12)
+  --sumi-900: #121212;
+
+  // --- Palette: type on paper ---------------------------------------------
+  // Darkened beyond the reference's greys so the tokens still clear AA when a
+  // wash reaches in behind them. Ratios are measured from a render, not
+  // computed from hex — the grain multiplies over the sheet and costs roughly
+  // 0.15 of ratio.
+  --ink-on-paper: #16150f;
+  --ink-on-paper-dim: #33312b;
+  --ink-on-paper-faint: #4b4841;
+
+  // --- Palette: type on ink -----------------------------------------------
+  --paper: #e8e6df;
+  --paper-dim: #b4b0a8;
+  --paper-faint: #928e87;
+  --paper-ghost: #3d3a35;
+
+  // --- Palette: accents ----------------------------------------------------
+  --vermilion: #b8341f; // hanko seal red, as it reads on paper
+  --vermilion-bright: #e0503a; // the same colour lifted for dark grounds
+  --indigo: #2e3e63; // aizome blue — mirrored in Map.jsx
+  --gold: #b08d57; // brass fittings — mirrored in Map.jsx
+  --steel: #c6cbd1; // blade steel
+
+  // --- Defaults (the ink surface, so anything outside a section still reads) -
+  --surface: var(--sumi-void);
+  --text: var(--paper);
+  --text-dim: var(--paper-dim);
+  --text-faint: var(--paper-faint);
+  --line: rgba(232, 230, 223, 0.1);
+  --line-strong: rgba(232, 230, 223, 0.24);
+  --tint: rgba(232, 230, 223, 0.03);
+  --accent: var(--vermilion);
+  --accent-strong: var(--vermilion-bright);
+
+  // --- Type families ------------------------------------------------------
+  --font-display: "Shippori Mincho", "Iowan Old Style", "Palatino Linotype",
+    "Times New Roman", serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas,
+    monospace;
+  --font-body: var(--font-display);
+
+  // --- Fluid type scale ---------------------------------------------------
+  --fs-hero: clamp(2.75rem, 8.4vw, 7.5rem);
+  --fs-h1: clamp(2rem, 4.8vw, 4.25rem);
+  --fs-h2: clamp(1.5rem, 2.5vw, 2.25rem);
+  --fs-h3: clamp(1.0625rem, 1.5vw, 1.375rem);
+  --fs-body: clamp(0.9375rem, 1vw, 1.0625rem);
+  --fs-sm: 0.875rem;
+  --fs-xs: 0.75rem;
+  --fs-2xs: 0.6875rem;
+  --fs-3xs: 0.625rem;
+
+  --lh-tight: 1.02;
+  --lh-snug: 1.24;
+  --lh-body: 1.72;
+
+  --tracking-tight: -0.022em;
+  --tracking-wide: 0.08em;
+  --tracking-wider: 0.18em;
+  --tracking-widest: 0.34em;
+
+  // --- Space scale (4px base) --------------------------------------------
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+  --sp-8: 4rem;
+  --sp-9: 6rem;
+
+  // --- Layout -------------------------------------------------------------
+  --shell: 1280px;
+  --gutter: clamp(1.25rem, 4vw, 4rem);
+  --nav-height: 72px;
+  --radius-sm: 2px;
+
+  // --- Motion -------------------------------------------------------------
+  --ease-out: cubic-bezier(0.16, 0.84, 0.44, 1);
+  --ease-in-out: cubic-bezier(0.65, 0.05, 0.36, 1);
+  --dur: 320ms;
+  --dur-slow: 620ms;
+  --dur-reveal: 880ms;
+
+  // --- Layers -------------------------------------------------------------
+  --z-surface: 0;
+  --z-content: 1;
+  --z-atmosphere: 2;
+  --z-nav: 100;
+}

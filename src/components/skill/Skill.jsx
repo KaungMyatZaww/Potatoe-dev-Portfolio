@@ -1,100 +1,60 @@
-import React, { useState } from "react";
+import SectionHeader from "../common/SectionHeader";
+import useReveal from "../../hooks/useReveal";
+import { skills } from "../../data/portfolio";
 import "./skill.scss";
 
-function Skill() {
-  const skills = [
-    {
-      name: "HTML",
-      logo: "./images/html.png",
-      logoHover: "./images/htmlHover.png",
-      category: "Frontend"
-    },
-    {
-      name: "CSS",
-      logo: "./images/css.png",
-      logoHover: "./images/cssHover.png",
-      category: "Frontend"
-    },
-    {
-      name: "JavaScript",
-      logo: "./images/js.png",
-      logoHover: "./images/js.png",
-      category: "Frontend"
-    },
-    {
-      name: "React",
-      logo: "./images/react.png",
-      logoHover: "./images/reactHover.png",
-      category: "Frontend"
-    },
-    {
-      name: "Node.js",
-      logo: "./images/node.png",
-      logoHover: "./images/nodeHover.png",
-      category: "Backend"
-    },
-    {
-      name: "Three.js",
-      logo: "./images/three.svg",
-      logoHover: "./images/threeHover.svg",
-      category: "3D Graphics"
-    },
-    {
-      name: "Java",
-      logo: "./images/java.svg",
-      logoHover: "./images/javaHover.svg",
-      category: "Backend"
-    },
-    {
-      name: "Prisma",
-      logo: "./images/prisma.svg",
-      logoHover: "./images/prismaHover.svg",
-      category: "Database"
-    },
-    {
-      name: "MongoDB",
-      logo: "./images/mongodb.svg",
-      logoHover: "./images/mongodbHover.svg",
-      category: "Database"
-    },
-    {
-      name: "MySQL",
-      logo: "./images/mysql.svg",
-      logoHover: "./images/mysql.svg",
-      category: "Database"
-    },
-  ];
-
-  const [hoveredItem, setHoveredItem] = useState(null);
+function SkillCell({ skill, index }) {
+  const [ref, isVisible] = useReveal({ threshold: 0.1 });
+  const ordinal = String(index + 1).padStart(2, "0");
 
   return (
-    <section className="skill-section">
-      <h1 className="title">Skills & Technologies</h1>
-      <p className="subtitle">Technologies I've worked with</p>
-
-      <div className="grid">
-        {skills.map((skill, idx) => (
-          <div
-            key={skill.name}
-            className={`skill-card ${skill.name === 'MongoDB' || skill.name === 'MySQL' ? 'wide-card' : ''}`}
-            onMouseEnter={() => setHoveredItem(idx)}
-            onMouseLeave={() => setHoveredItem(null)}
-          >
-            <div className="card-header">
-              <h2>{skill.name}</h2>
-              <span className="category">{skill.category}</span>
-            </div>
-            <div className="skill-logo-container">
-              <img
-                src={hoveredItem === idx ? skill.logoHover : skill.logo}
-                alt={`${skill.name} logo`}
-                className="skill-logo"
-              />
-            </div>
-          </div>
-        ))}
+    <li
+      ref={ref}
+      className={`skill__cell reveal ${isVisible ? "is-visible" : ""}`}
+    >
+      <div className="skill__cell-meta">
+        <span className="skill__ordinal">{ordinal}</span>
+        <span className="skill__category">{skill.category}</span>
       </div>
-    </section>
+
+      <div className="skill__mark">
+        <img
+          src={skill.logoHover}
+          alt=""
+          width="56"
+          height="56"
+          loading="lazy"
+        />
+      </div>
+
+      <h3 className="skill__name">{skill.name}</h3>
+    </li>
+  );
+}
+
+function Skill() {
+  return (
+    <div className="skill">
+
+      <div className="skill__inner">
+        <SectionHeader
+          index="03"
+          kicker="Technologies I've worked with"
+          title="Skills & Technologies"
+          jp="技術"
+        />
+
+        <ul className="skill__grid">
+          {skills.map((skill, index) => (
+            <SkillCell
+              key={skill.name}
+              skill={skill}
+              index={index}
+            />
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 }
 

@@ -1,0 +1,79 @@
+// ---------------------------------------------------------------------------
+// Surfaces.
+//
+// A section declares which page of the book it is — `surface--paper` or
+// `surface--ink` — and every semantic token downstream resolves against that
+// choice. Component partials only ever ask for `var(--text)`, `var(--line)` or
+// `var(--accent)`, so the same markup renders correctly on either surface with
+// no conditional and no duplicated rules.
+//
+// The token sets are mixins because one other thing needs them: the fixed
+// masthead, which is opaque and therefore has to wear whichever surface it is
+// floating over.
+// ---------------------------------------------------------------------------
+
+@use "mixins" as *;
+
+@mixin paper-tokens {
+  --surface: var(--paper-bg);
+  --text: var(--ink-on-paper);
+  --text-dim: var(--ink-on-paper-dim);
+  --text-faint: var(--ink-on-paper-faint);
+  --line: rgba(22, 21, 15, 0.16);
+  --line-strong: rgba(22, 21, 15, 0.34);
+  --tint: rgba(22, 21, 15, 0.04);
+  --tint-strong: rgba(22, 21, 15, 0.08);
+  --accent: var(--vermilion);
+  --accent-strong: #8f2615;
+
+  // Grain darkens a light sheet; on a dark ground the same blend is invisible.
+  --grain-blend: multiply;
+  --grain-opacity: 0.05;
+  // Kept light on paper, where darkening the edges fights the sheet.
+  --vignette-alpha: 0.05;
+}
+
+@mixin ink-tokens {
+  --surface: var(--sumi-void);
+  --text: var(--paper);
+  --text-dim: var(--paper-dim);
+  --text-faint: var(--paper-faint);
+  --line: rgba(232, 230, 223, 0.1);
+  --line-strong: rgba(232, 230, 223, 0.24);
+  --tint: rgba(232, 230, 223, 0.03);
+  --tint-strong: rgba(232, 230, 223, 0.07);
+  --accent: var(--vermilion-bright);
+  --accent-strong: var(--vermilion-bright);
+
+  // Screen is the only blend that lifts a near-black ground enough to read.
+  --grain-blend: screen;
+  --grain-opacity: 0.05;
+  --vignette-alpha: 0.1;
+}
+
+.surface {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--surface);
+  color: var(--text);
+
+  // The wash sits behind everything; the section's own content stacks above.
+  > * {
+    position: relative;
+    z-index: var(--z-content);
+  }
+
+  > .ink-surface {
+    position: absolute;
+    z-index: var(--z-surface);
+  }
+
+  &--paper {
+    @include paper-tokens;
+  }
+
+  &--ink {
+    @include ink-tokens;
+  }
+}

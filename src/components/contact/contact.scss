@@ -1,131 +1,269 @@
+@use "../../styles/mixins" as *;
+
 .contact {
-  min-height: 100vh;
-  scroll-snap-align: center;
-  background: transparent;
+  position: relative;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+  overflow: hidden;
 
-  .contact-content {
-    flex: 1;
+  &__inner {
+    @include section-shell;
+    position: relative;
+    z-index: 1;
+    flex: 1 1 auto;
+  }
+
+
+  &__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
+    gap: clamp(var(--sp-6), 6vw, var(--sp-9));
+    align-items: start;
+  }
+
+  // --- Form ---------------------------------------------------------------
+  &__form {
     display: flex;
     flex-direction: column;
+    gap: var(--sp-5);
   }
 
-  .contactContainer {
-    width: 100%;
+  &__field {
     display: flex;
-    justify-content: space-between;
-    gap: 50px;
-    flex: 1;
+    flex-direction: column;
+    gap: var(--sp-2);
 
-    @media only screen and (max-width: 769px) {
-      flex-direction: column;
-      padding-top: 10px;
+    label {
+      @include label(var(--fs-3xs));
+      color: var(--text-faint);
     }
-    .left {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      @media only screen and (max-width: 769px) {
-        justify-content: center;
+
+    input,
+    textarea {
+      width: 100%;
+      padding: var(--sp-4);
+      background: var(--tint);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: var(--fs-sm);
+      resize: vertical;
+      transition: border-color var(--dur) var(--ease-out),
+        background-color var(--dur) var(--ease-out);
+
+      &::placeholder {
+        // Dimmer than real input, but still legible on either surface —
+        // --paper-ghost was tuned for the dark ground and vanishes on paper.
+        color: var(--text-faint);
+        opacity: 0.72;
       }
 
-      form {
-        width: 500px;
-        display: flex;
-        flex-direction: column;
-        gap: 25px;
-        @media only screen and (max-width: 769px) {
-          width: 300px;
-        }
-
-        h1 {
-          font-weight: 300;
-          color: white;
-        }
-
-        input {
-          padding: 20px;
-          background-color: rgba(255, 255, 255, 0.1);
-          border: 1px solid rgba(202, 52, 228, 0.3);
-          border-radius: 5px;
-          color: white;
-
-          &::placeholder {
-            color: #aaa;
-          }
-        }
-        textarea {
-          padding: 20px;
-          background-color: rgba(255, 255, 255, 0.1);
-          border: 1px solid rgba(202, 52, 228, 0.3);
-          border-radius: 5px;
-          color: white;
-
-          &::placeholder {
-            color: #aaa;
-          }
-        }
-        button {
-          background-color: rgb(202, 52, 228);
-          font-weight: bold;
-          cursor: pointer;
-          border: none;
-          border-radius: 10px;
-          color: white;
-          padding: 15px;
-        }
+      &:hover {
+        border-color: var(--line-strong);
       }
-    }
-    .right {
-      flex: 1;
+
+      &:focus {
+        border-color: var(--accent);
+        background: var(--tint-strong);
+        outline: none;
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--accent-strong);
+        outline-offset: 1px;
+      }
+
+      &:invalid:not(:placeholder-shown) {
+        border-color: rgba(192, 57, 43, 0.6);
+      }
+
+      @include reduced-motion {
+        transition: none;
+      }
     }
   }
 
-  .contact-footer {
-    margin-top: auto;
-    padding: 25px 20px 15px;
-    text-align: center;
-    border-top: 1px solid rgba(202, 52, 228, 0.3);
-    background: rgba(15, 12, 41, 0.7);
-    backdrop-filter: blur(10px);
+  &__feedback {
+    @include label(var(--fs-3xs));
+    min-height: 1.4em;
+    line-height: 1.8;
+    letter-spacing: var(--tracking-wide);
+    color: var(--text-faint);
 
-    .socials {
-      display: flex;
-      justify-content: center;
-      gap: 25px;
-      margin-bottom: 15px;
-      flex-wrap: wrap; // ✅ allows wrapping on small screens
+    &--success {
+      color: #7fb99a;
     }
 
-    .social-link {
-      padding: 8px 12px; // ✅ better tap target on mobile
+    &--error,
+    &--unconfigured {
+      color: var(--accent-strong);
+    }
+  }
+
+  // --- Aside: map + details ----------------------------------------------
+  &__aside {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-6);
+  }
+
+  &__map {
+    position: relative;
+    @include plate(var(--tint));
+    padding: var(--sp-3);
+    overflow: hidden;
+
+    svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 3;
+    }
+  }
+
+  // Holds the aspect ratio while the map bundle streams in.
+  &__map-placeholder {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--line) 0 1px,
+      transparent 1px 14px
+    );
+  }
+
+  &__map-caption {
+    @include label(var(--fs-3xs));
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    padding: var(--sp-3) var(--sp-2) var(--sp-1);
+    color: var(--text-faint);
+  }
+
+  &__map-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 rgba(192, 57, 43, 0.5);
+    animation: map-ping 2.4s var(--ease-out) infinite;
+    flex: none;
+
+    @include reduced-motion {
+      animation: none;
+    }
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-5);
+    padding-top: var(--sp-5);
+    border-top: 1px solid var(--line);
+
+    dt {
+      @include label(var(--fs-3xs));
+      color: var(--accent);
+      margin-bottom: var(--sp-2);
     }
 
-    .copyright {
-      font-size: 0.85rem;
-      color: #777;
+    dd {
+      margin: 0;
+      font-family: var(--font-mono);
+      font-size: var(--fs-sm);
+      color: var(--text-dim);
+      word-break: break-word;
     }
 
-    // 📱 Mobile
-    @media only screen and (max-width: 480px) {
-      padding: 20px 15px;
+    a {
+      transition: color var(--dur) var(--ease-out);
 
-      .socials {
-        gap: 15px;
-        margin-bottom: 10px;
+      &:hover {
+        color: var(--accent-strong);
       }
 
-      .social-link {
-        font-size: 0.9rem;
-      }
-
-      .copyright {
-        font-size: 0.75rem;
-        line-height: 1.4;
-        padding: 0 10px;
+      @include reduced-motion {
+        transition: none;
       }
     }
+  }
+
+  &__socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-4);
+  }
+
+  // --- Footer -------------------------------------------------------------
+  &__footer {
+    position: relative;
+    z-index: 1;
+    margin-top: var(--sp-8);
+    border-top: 1px solid var(--line);
+    background: var(--surface);
+  }
+
+  &__footer-inner {
+    @include shell;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    padding-block: var(--sp-5);
+  }
+
+  &__copyright {
+    @include label(var(--fs-3xs));
+    color: var(--text-faint);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  &__top {
+    @include label(var(--fs-3xs));
+    color: var(--text-dim);
+    transition: color var(--dur) var(--ease-out);
+
+    &:hover {
+      color: var(--accent-strong);
+    }
+
+    @include reduced-motion {
+      transition: none;
+    }
+  }
+
+  // --- Responsive ---------------------------------------------------------
+  @include until($bp-md) {
+    &__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    // 16px floors iOS Safari's auto-zoom on focus.
+    &__field {
+      input,
+      textarea {
+        font-size: 1rem;
+      }
+    }
+
+    &__top {
+      padding-block: var(--sp-2);
+    }
+  }
+}
+
+@keyframes map-ping {
+  0% {
+    box-shadow: 0 0 0 0 rgba(192, 57, 43, 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 9px rgba(192, 57, 43, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(192, 57, 43, 0);
   }
 }

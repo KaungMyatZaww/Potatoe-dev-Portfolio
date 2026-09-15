@@ -1,0 +1,234 @@
+@use "../../styles/mixins" as *;
+
+// The projects page. Its surface classes (paper, with grain and no wash) come
+// from the markup, so the page and the home gallery read as one area of the
+// site.
+.all-projects {
+  position: relative;
+  min-height: 100vh;
+  // Clears the fixed masthead.
+  padding-top: var(--nav-height);
+
+  &__inner {
+    @include shell;
+    position: relative;
+    z-index: 1;
+    padding-block: var(--sp-8) var(--sp-9);
+  }
+
+  // --- Header -------------------------------------------------------------
+  &__head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-6);
+    padding-bottom: var(--sp-6);
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  &__back {
+    @include focus-ring;
+    @include label(var(--fs-2xs));
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    align-self: flex-start;
+    color: var(--text-dim);
+    letter-spacing: var(--tracking-widest);
+    transition: color var(--dur) var(--ease-out), gap var(--dur) var(--ease-out);
+
+    &:hover {
+      color: var(--accent);
+      gap: var(--sp-3);
+    }
+
+    @include reduced-motion {
+      transition: none;
+    }
+  }
+
+  &__title-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sp-5);
+    flex-wrap: wrap;
+  }
+
+  &__title {
+    font-family: var(--font-display);
+    font-size: var(--fs-h1);
+    font-weight: 600;
+    line-height: var(--lh-tight);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  &__count {
+    @include label(var(--fs-2xs));
+    color: var(--text-faint);
+    letter-spacing: var(--tracking-wider);
+  }
+
+  // --- Rows ---------------------------------------------------------------
+  &__list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__row {
+    border-bottom: 1px solid var(--line);
+
+    &.is-pending {
+      opacity: 0.75;
+    }
+  }
+
+  &__link,
+  &__row.is-pending {
+    display: grid;
+    grid-template-columns: minmax(0, 220px) minmax(0, 1fr) auto;
+    align-items: start;
+    gap: clamp(var(--sp-4), 3vw, var(--sp-6));
+    padding-block: var(--sp-6);
+    transition: padding-inline var(--dur) var(--ease-out),
+      background-color var(--dur) var(--ease-out);
+
+    @include reduced-motion {
+      transition: none;
+    }
+  }
+
+  &__link:hover {
+    background: var(--tint);
+    padding-inline: var(--sp-4);
+
+    .all-projects__name {
+      color: var(--accent);
+    }
+
+    .all-projects__thumb svg,
+    .all-projects__thumb img {
+      transform: scale(1.04);
+    }
+  }
+
+  &__thumb {
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--paper-bg-deep);
+
+    img,
+    svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 600 / 340;
+      object-fit: cover;
+      transition: transform var(--dur-slow) var(--ease-out);
+    }
+
+    @include reduced-motion {
+      transition: none;
+    }
+  }
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+    min-width: 0;
+  }
+
+  &__ordinal {
+    @include label(var(--fs-3xs));
+    color: var(--accent);
+    letter-spacing: var(--tracking-widest);
+  }
+
+  &__name {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: var(--fs-h3);
+    font-weight: 500;
+    letter-spacing: var(--tracking-wide);
+    color: var(--text);
+    transition: color var(--dur) var(--ease-out);
+  }
+
+  &__badge {
+    @include label(var(--fs-3xs));
+    padding: var(--sp-1) var(--sp-2);
+    border: 1px dashed var(--line-strong);
+    color: var(--text-faint);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  &__summary {
+    font-family: var(--font-mono);
+    font-size: var(--fs-2xs);
+    line-height: 1.95;
+    letter-spacing: var(--tracking-wide);
+    color: var(--text-faint);
+    max-width: 62ch;
+  }
+
+  &__stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+    margin-top: var(--sp-2);
+
+    li {
+      @include label(var(--fs-3xs));
+      padding: var(--sp-1) var(--sp-3);
+      border: 1px solid var(--line);
+      color: var(--text-dim);
+      letter-spacing: var(--tracking-wider);
+    }
+  }
+
+  &__aside {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-4);
+    flex: none;
+    color: var(--accent);
+  }
+
+  &__year {
+    @include label(var(--fs-2xs));
+    color: var(--text-faint);
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__pending {
+    @include label(var(--fs-3xs));
+    padding: var(--sp-1) var(--sp-3);
+    border: 1px dashed var(--line-strong);
+    color: var(--text-faint);
+  }
+
+  // --- Responsive ---------------------------------------------------------
+  @include until($bp-md) {
+    &__inner {
+      padding-block: var(--sp-7) var(--sp-8);
+    }
+
+    &__link,
+    &__row.is-pending {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--sp-4);
+      padding-block: var(--sp-5);
+    }
+
+    &__thumb {
+      max-width: 320px;
+    }
+
+    &__aside {
+      justify-content: flex-start;
+    }
+  }
+}

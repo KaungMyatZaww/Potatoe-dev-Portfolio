@@ -1,66 +1,65 @@
-import React from "react";
+import SectionHeader from "../common/SectionHeader";
+import useReveal from "../../hooks/useReveal";
+import { experience } from "../../data/portfolio";
 import "./experience.scss";
 
-function Experience() {
-  const experiences = [
-    {
-      company: "Myanmar Information Technology Pte Ltd.",
-      position: "Web Developer",
-      duration: "2024 November - 2025 September",
-      description:
-        "Developed and maintained an internal HR and payroll web application. Built and enhanced frontend features using Angular and collaborated closely with backend services built with Node.js and PostgreSQL. Later contributed to a WebView-based mobile version of the system and worked alongside an attendance application to ensure smooth data integration and consistent user experience across platforms.",
-      technologies: ["Angular", "Node", "CSS", "HTML", "PostgreSQL"],
-    },
-    {
-      company: "KME Solutions",
-      position: "Software Engineer",
-      duration: "2025 September - Present",
-      description:
-        "Maintaining and extending multiple legacy PHP applications while handling full-stack responsibilities, including feature development, bug fixes, and production support. In parallel, developing a new in-house CRM system using Next.js and NestJS, contributing to both frontend and backend architecture, API design, and database integration. Also involved in deployment, server configuration, and infrastructure tasks across Linux-based environments.",
-      technologies: [
-        "HTML",
-        "CSS",
-        "JavaScript",
-        "MySQL",
-        "PHP",
-        "Laravel",
-        "Linux",
-        "AWS",
-        "Digital Ocean",
-        "Docker",
-        "Git",
-        "Nginx",
-        "Next.js",
-        "NestJS",
-      ],
-    },
-  ];
+function ExperienceEntry({ entry, index }) {
+  const [ref, isVisible] = useReveal({ threshold: 0.12 });
+  const ordinal = String(index + 1).padStart(2, "0");
 
   return (
-    <section className="experience-section">
-      <h1 className="title">Work Experience</h1>
-      <p className="subtitle">My professional journey</p>
-
-      <div className="experience-grid">
-        {experiences.map((exp, idx) => (
-          <div key={idx} className="experience-card">
-            <div className="card-header">
-              <h2>{exp.position}</h2>
-              <span className="company">{exp.company}</span>
-            </div>
-            <div className="duration">{exp.duration}</div>
-            <p className="description">{exp.description}</p>
-            <div className="technologies">
-              {exp.technologies.map((tech, techIdx) => (
-                <span key={techIdx} className="tech-tag">
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </div>
-        ))}
+    <article
+      ref={ref}
+      className={`experience__entry reveal ${isVisible ? "is-visible" : ""}`}
+    >
+      <div className="experience__rail">
+        <span className="experience__ordinal">{ordinal}</span>
+        <span className="experience__duration">{entry.duration}</span>
+        <span className="experience__company">{entry.company}</span>
       </div>
-    </section>
+
+      <div className="experience__body">
+        <header className="experience__head">
+          <h3 className="experience__position">{entry.position}</h3>
+          <span className="experience__location">{entry.location}</span>
+        </header>
+
+        <p className="experience__description">{entry.description}</p>
+
+        <ul className="experience__stack">
+          {entry.technologies.map((tech) => (
+            <li key={tech} className="experience__tag">
+              {tech}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </article>
+  );
+}
+
+function Experience() {
+  return (
+    <div className="experience">
+      <div className="experience__inner">
+        <SectionHeader
+          index="02"
+          kicker="Where I've worked"
+          title="Work Experience"
+          jp="職務経歴"
+        />
+
+        <div className="experience__list">
+          {experience.map((entry, index) => (
+            <ExperienceEntry
+              key={`${entry.company}-${entry.position}`}
+              entry={entry}
+              index={index}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 

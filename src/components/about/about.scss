@@ -1,87 +1,91 @@
+@use "../../styles/mixins" as *;
+
 .about {
-  height: 100vh;
-  scroll-snap-align: center;
-  display: flex;
-  justify-content: center;
-  background: transparent;
+  position: relative;
+  overflow: hidden;
 
-  .container {
-    height: 100vh;
-    width: 1200px;
+  &__inner {
+    @include section-shell;
+    position: relative;
+    z-index: 1;
+  }
+
+  // --- Copy column --------------------------------------------------------
+  &__copy {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: var(--sp-5);
+    max-width: 720px;
 
-    .right {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 10px;
-
-      @media only screen and (max-width: 769px) {
-        align-items: center;
-        text-align: center;
-      }
-      h1 {
-        font-size: 60px;
-        color: white;
-      }
-
-      .whatWeDo {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        color: rgb(202, 52, 228);
-        img {
-          width: 15px;
-          height: 5px;
-        }
-        h2 {
-          font-size: 20px;
-          color: rgb(202, 52, 228);
-        }
-      }
-      p {
-        font-size: 14px;
-        color: #d0d0d0;
-      }
-      button {
-        font-size: 14px;
-        padding: 8px 8px;
-        width: 100px;
-        border: none;
-        border-radius: 15px;
-        background-color: rgb(202, 52, 228);
-        color: white;
-        cursor: pointer;
-
-        a {
-          text-decoration: none;
-          color: white;
-        }
-      }
-    }
-    .left {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      @media only screen and (max-width: 769px) {
-        display: none;
-      }
-
-      // position: relative;
-      img {
-        width: 480px;
-        height: 560px;
-        object-fit: contain;
-        // position: absolute;
-        // top: 0;
-        // bottom: 0;
-        // left: 0;
-        // right: 0;
-        // margin: auto;
-      }
+    > p {
+      font-size: clamp(1.0625rem, 1.5vw, 1.5rem);
+      line-height: 1.6;
+      color: var(--text-dim);
+      max-width: 46ch;
     }
   }
+
+  &__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-6);
+    padding-top: var(--sp-5);
+    border-top: 1px solid var(--line);
+  }
+
+  &__fact {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+
+    dt {
+      @include label(var(--fs-3xs));
+      color: var(--accent);
+    }
+
+    dd {
+      margin: 0;
+      font-family: var(--font-mono);
+      font-size: var(--fs-sm);
+      color: var(--text);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-5);
+  }
+
+  &__mail {
+    @include label(var(--fs-2xs));
+    color: var(--text-dim);
+    transition: color var(--dur) var(--ease-out);
+
+    &:hover {
+      color: var(--accent-strong);
+    }
+  }
+
+  // --- Responsive ---------------------------------------------------------
+  @include until($bp-md) {
+    &__facts {
+      gap: var(--sp-4);
+    }
+
+    &__actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    &__actions .btn {
+      width: 100%;
+    }
+
+    &__mail {
+      padding-block: var(--sp-2);
+    }
+  }
+
 }

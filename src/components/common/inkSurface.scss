@@ -1,0 +1,66 @@
+@use "../../styles/mixins" as *;
+
+// ---------------------------------------------------------------------------
+// The wash layer.
+//
+// Placement is driven entirely by custom properties so each section can move
+// its ink without a new class:
+//
+//   --wash-pos      object-position of the wash inside the section
+//   --wash-opacity  how hard the ink reads
+//   --wash-mask     a mask that keeps pigment off the reading column
+//
+// The default mask matters for accessibility, not just taste. Dark text on a
+// light surface loses contrast as ink reaches in behind it, and light text on
+// the dark surface loses it to a pale stroke — so by default the wash is held
+// near-transparent through the middle and only reaches full strength at the
+// edges, framing the content. Sections where the wash is inherently off to one
+// side (the hero) can relax it with a directional override.
+// ---------------------------------------------------------------------------
+
+$content-fade: radial-gradient(
+  76% 66% at 48% 46%,
+  rgba(0, 0, 0, 0.1) 0%,
+  rgba(0, 0, 0, 0.3) 60%,
+  rgba(0, 0, 0, 1) 100%
+);
+
+.ink-surface {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+
+  > * {
+    position: absolute;
+    inset: 0;
+  }
+
+  &__wash {
+    width: 100%;
+    height: 100%;
+    object-fit: fit;
+    object-position: var(--wash-pos, 50% 50%);
+    opacity: var(--wash-opacity, 1);
+
+    // The prefix is not optional: if Safari dropped the mask, muted text would
+    // land on full-strength ink and fail contrast outright.
+    -webkit-mask-image: var(--wash-mask, #{$content-fade});
+    mask-image: var(--wash-mask, #{$content-fade});
+  }
+
+  &__grain {
+    @include paper-grain(var(--grain-opacity, 0.05));
+    mix-blend-mode: var(--grain-blend, overlay);
+  }
+
+  // Vignette. Kept lighter on paper, where darkening the edges fights the sheet
+  // instead of seating it.
+  &__vignette {
+    background: radial-gradient(
+      132% 104% at 50% 46%,
+      transparent 52%,
+      rgba(0, 0, 0, var(--vignette-alpha, 0.06)) 100%
+    );
+  }
+}

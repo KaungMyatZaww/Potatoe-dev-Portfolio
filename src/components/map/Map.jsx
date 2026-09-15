@@ -1,11 +1,19 @@
-import React from "react";
 import {
   ComposableMap,
   Geographies,
   Geography,
   Annotation,
-  ZoomableGroup,
 } from "react-simple-maps";
+
+// react-simple-maps forwards plain SVG presentation attributes, which cannot
+// resolve CSS custom properties. These literals mirror the tokens in
+// src/styles/_tokens.scss — keep them in sync.
+const LAND = "#1a1f2e";
+const LAND_STROKE = "rgba(237, 233, 224, 0.22)";
+const ORIGIN = "#c0392b";
+
+const ORIGIN_COORDS = [96.199379, 16.871311]; // Yangon
+const ORIGIN_NAME = "Myanmar";
 
 const Map = () => {
   return (
@@ -13,35 +21,53 @@ const Map = () => {
       projection="geoAzimuthalEqualArea"
       projectionConfig={{
         rotate: [-30.0, -10.0, 10],
-        center: [96.199379, 16.871311],
+        center: ORIGIN_COORDS,
         scale: 400,
       }}
+      // Decorative: the "based in Yangon" caption carries the meaning.
+      aria-hidden="true"
+      focusable="false"
       style={{ width: "100%", height: "100%" }}
     >
-      <Geographies
-        geography="/features.json"
-        fill="#2C065D"
-        stroke="#FFFFFF"
-        strokeWidth={0.5}
-      >
+      <Geographies geography="/features.json">
         {({ geographies }) =>
-          geographies.map((geo) => (
-            <Geography key={geo.rsmKey} geography={geo} />
-          ))
+          geographies.map((geo) => {
+            const isOrigin = geo.properties?.name === ORIGIN_NAME;
+
+            return (
+              <Geography
+                key={geo.rsmKey}
+                geography={geo}
+                className={isOrigin ? "map__geo map__geo--origin" : "map__geo"}
+                fill={isOrigin ? ORIGIN : LAND}
+                stroke={LAND_STROKE}
+                strokeWidth={0.4}
+              />
+            );
+          })
         }
       </Geographies>
+
       <Annotation
-        subject={[96.199379, 16.871311]}
-        dx={0}
-        dy={80}
+        subject={ORIGIN_COORDS}
+        dx={26}
+        dy={-22}
         connectorProps={{
-          stroke: "white",
-          strokeWidth: 2,
+          stroke: ORIGIN,
+          strokeWidth: 1,
           strokeLinecap: "round",
         }}
       >
-        <text x="1" textAnchor="end" alignmentBaseline="middle" fill="white">
-          {"I am here"}
+        <text
+          x="4"
+          textAnchor="start"
+          alignmentBaseline="middle"
+          fill="#ede9e0"
+          fontSize={11}
+          fontFamily="JetBrains Mono, monospace"
+          letterSpacing="1.5"
+        >
+          YANGON
         </text>
       </Annotation>
     </ComposableMap>
